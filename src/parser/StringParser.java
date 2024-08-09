@@ -1,6 +1,9 @@
 package parser;
 
 import calculator.Calculator;
+import history.HistoryLine;
+import history.HistoryService;
+import history.HistoryServiceImpl;
 import operator.Operator;
 
 import java.util.Scanner;
@@ -9,14 +12,23 @@ public class StringParser implements Parser {
 
     private final Calculator calculator;
     private final Scanner scanner;
+    private final HistoryService historyService;
 
-    public StringParser(Calculator calculator, Scanner scanner) {
+    public StringParser(Calculator calculator, Scanner scanner, HistoryService historyService) {
         this.calculator = calculator;
         this.scanner = scanner;
+        this.historyService = historyService;
     }
 
     public void parse() {
         String stringToCalculate = scanner.nextLine();
+
+        if (stringToCalculate.equals("GET_HISTORY")) {
+            System.out.println(historyService.getHistory());
+            return;
+        }
+
+
         String[] operands = stringToCalculate.split(" ");
 
         String firstOperand = operands[0]; //первое число
